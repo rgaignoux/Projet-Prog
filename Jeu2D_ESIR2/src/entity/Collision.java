@@ -1,8 +1,6 @@
 package entity;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
 
 import tile.Tile;
 
@@ -39,5 +37,4 @@ public class Collision {
 		Rectangle r_entity_2 = getBounds(e2);
 		return r_entity_1.intersects(r_entity_2);
 	}
-
 }
