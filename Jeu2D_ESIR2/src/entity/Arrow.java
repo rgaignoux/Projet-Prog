@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import utils.Collision;
 
 public class Arrow extends Player {
 

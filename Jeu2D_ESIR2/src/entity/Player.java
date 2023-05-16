@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import utils.Collision;
 
 /**
  * D�fintition du comportement d'un joueur
@@ -33,11 +34,6 @@ public class Player extends EntityMovable {
 		this.setDefaultValues();
 		this.getPlayerImage();
 	}
-	
-	public int[] getPostion() {
-		int[] p = {m_x, m_y};
-		return p;
-	}
 
 	/**
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
@@ -45,8 +41,15 @@ public class Player extends EntityMovable {
 	protected void setDefaultValues() {
 		m_x = 100;
 		m_y = 100;
-		m_speed = 4;
+		m_width = 48;
+		m_height = 48;
+		m_speed = 2;
 		m_pv = 10;
+	}
+	
+	protected void copyPosition(Player p) {
+		m_x = p.m_x;
+		m_y = p.m_y;
 	}
 
 	/**
@@ -74,25 +77,6 @@ public class Player extends EntityMovable {
 		getPlayerImage();
 		weapon(m_keyH);
 	}
-
-	public void deplacement(KeyHandler k) {
-		int code = k.keyP;
-		System.out.println(code);
-		if (!Collision.collisionObstacles(m_gp, this)) {
-			if (code == 90) {
-				this.goUp();
-			}
-			if (code == 81) {
-				this.goLeft();
-			}
-			if (code == 83) {
-				this.goDown();
-			}
-			if (code == 68) {
-				this.goRight();
-			}
-		}
-	}
 	
 	public void weapon(KeyHandler k) {
 		int code = k.keyP;
@@ -103,6 +87,29 @@ public class Player extends EntityMovable {
 		if (code == 50) {
 			this.usSword = false;
 			this.usArc = true;
+		}
+	}
+
+	public void deplacement(KeyHandler k) {
+		int code = k.keyP;
+		Player positionFuture = new Player(this.m_gp, this.m_keyH);
+		positionFuture.copyPosition(this);
+
+		if (code == 90) {
+			positionFuture.goUp();
+			if(!Collision.collisionObstacles(m_gp, positionFuture)) this.goUp();
+		}
+		if (code == 81) {
+			positionFuture.goLeft();
+			if(!Collision.collisionObstacles(m_gp, positionFuture)) this.goLeft();
+		}
+		if (code == 83) {
+			positionFuture.goDown();
+			if(!Collision.collisionObstacles(m_gp, positionFuture)) this.goDown();
+		}
+		if (code == 68) {
+			positionFuture.goRight();
+			if(!Collision.collisionObstacles(m_gp, positionFuture)) this.goRight();
 		}
 	}
 

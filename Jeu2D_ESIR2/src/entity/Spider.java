@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
+import utils.Collision;
 
 public class Spider extends Enemy {
 

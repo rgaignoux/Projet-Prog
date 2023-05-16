@@ -1,11 +1,10 @@
-package entity;
+package utils;
 
 import java.awt.Rectangle;
 
+import entity.Entity;
 import main.GamePanel;
-import tile.TileManager;
 import tile.Obstacle;
-import tile.Tile;
 
 public class Collision {
 	
@@ -36,8 +35,8 @@ public class Collision {
 	 * @return si l'entity est en collision avec n'importe quel obstacle collisionable
 	 */
 	public static boolean collisionObstacles(GamePanel panel, Entity e) {
-		for(Obstacle o : panel.m_tileM.listeObstacle){
-			if(collisionObstacle(e,o) && o.collision) {
+		for(Obstacle o : panel.m_listeObstacleCollisionnables){
+			if(collisionObstacle(e,o)) {
 				return true;
 			}
 		}

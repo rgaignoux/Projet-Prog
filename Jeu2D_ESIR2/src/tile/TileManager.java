@@ -23,16 +23,13 @@ public class TileManager {
 	GamePanel m_gp;			//panel du jeu principal
 	public Tile[] m_tile;			//tableau de toutes les tiles possibles dans le jeu
 	int m_maxTiles = 10;	//nombre maximum de tiles chargeable dans le jeu
-	public int m_mapTileNum[][];	//r�partition des tiles dans la carte du jeu
-	public List<Obstacle> listeObstacle;
+	public int m_mapTileNum[][];	//r partition des tiles dans la carte du jeu
 	
 	/**
 	 * Constructeur
 	 * @param gp
 	 */
 	public TileManager(GamePanel gp) {
-
-		listeObstacle = new ArrayList<>();
 		this.m_gp =  gp;
 		m_tile = new Tile[m_maxTiles];
 		m_mapTileNum = new int[gp.MAX_SCREEN_COL][gp.MAX_SCREE_ROW];
@@ -81,20 +78,13 @@ public class TileManager {
 			int col = 0;
 			int row = 0;
 			
-			// Parcourir le fichier txt pour r�cup�rer les valeurs
+			// Parcourir le fichier txt pour r cup rer les valeurs
 			while (col < m_gp.MAX_SCREEN_COL && row < m_gp.MAX_SCREE_ROW) {
 				String line = br.readLine();
 				while (col < m_gp.MAX_SCREEN_COL) {
 					String numbers[] = line.split(" ");
 					int num = Integer.parseInt(numbers[col]);
 					m_mapTileNum [col][row] = num;
-					Obstacle obstacle = new Obstacle(row*48, col*48, 48, 48);
-					System.out.println(obstacle.m_x);
-					System.out.println(obstacle.m_y);
-					if(num == 1) {
-						obstacle.collision = true;
-					}
-					listeObstacle.add(obstacle);
 					col++;
 				}
 				if (col == m_gp.MAX_SCREEN_COL) {
@@ -110,7 +100,7 @@ public class TileManager {
 	}
 	
 	/**
-	 * Affichage de la carte avec les diff�rentes tuiles
+	 * Affichage de la carte avec les diff rentes tuiles
 	 * @param g2
 	 */
 	public void draw(Graphics2D g2) {

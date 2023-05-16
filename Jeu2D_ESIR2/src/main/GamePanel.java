@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import entity.Entity;
 import entity.Player;
+import tile.Obstacle;
 import tile.TileManager;
 
 import java.awt.Graphics;
@@ -19,24 +20,25 @@ import java.util.List;
  */
 public class GamePanel extends JPanel implements Runnable {
 
-	// Param�tres de l'�cran
+	// Param tres de l' cran
 	final int ORIGINAL_TILE_SIZE = 16; // une tuile de taille 16x16
-	final int SCALE = 3; // �chelle utilis�e pour agrandir l'affichage
+	final int SCALE = 3; //  chelle utilis e pour agrandir l'affichage
 	public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48
 	public final int MAX_SCREEN_COL = 16;
-	public final int MAX_SCREE_ROW = 12; // ces valeurs donnent une r�solution 4:3
+	public final int MAX_SCREE_ROW = 12; // ces valeurs donnent une r solution 4:3
 	public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 768 pixels
 	public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREE_ROW; // 576 pixels
 
 	// FPS : taux de rafraichissement
 	int m_FPS;
 
-	// Cr�ation des diff�rentes instances (Player, KeyHandler, TileManager,
+	// Cr ation des diff rentes instances (Player, KeyHandler, TileManager,
 	// GameThread ...)
 	KeyHandler m_keyH;
 	Thread m_gameThread;
 	Player m_player;
 	public TileManager m_tileM;
+	public List<Obstacle> m_listeObstacleCollisionnables;
 	public List<Entity> listeEntity;
 
 	/**
@@ -47,6 +49,18 @@ public class GamePanel extends JPanel implements Runnable {
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH);
 		m_tileM = new TileManager(this);
+
+		// Initialisation de la liste des obstacles collisionnables, cad les briques
+		m_listeObstacleCollisionnables = new ArrayList<>();
+		int[][] mapNum = m_tileM.m_mapTileNum;
+		for (int i = 0; i < mapNum.length; i++) {
+			for (int j = 0; j < mapNum[i].length; j++) {
+				if (mapNum[i][j] == 1) {
+					Obstacle obstacle = new Obstacle(i * TILE_SIZE, j * TILE_SIZE);
+					m_listeObstacleCollisionnables.add(obstacle);
+				}
+			}
+		}
 		
 		listeEntity = new ArrayList<>();
 
@@ -72,11 +86,11 @@ public class GamePanel extends JPanel implements Runnable {
 
 		while (m_gameThread != null) { // Tant que le thread du jeu est actif
 
-			// Permet de mettre � jour les diff�rentes variables du jeu
+			// Permet de mettre   jour les diff rentes variables du jeu
 			this.update();
 
-			// Dessine sur l'�cran le personnage et la map avec les nouvelles informations.
-			// la m�thode "paintComponent" doit obligatoirement �tre appel�e avec
+			// Dessine sur l' cran le personnage et la map avec les nouvelles informations.
+			// la m thode "paintComponent" doit obligatoirement  tre appel e avec
 			// "repaint()"
 			this.repaint();
 
@@ -100,14 +114,14 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	/**
-	 * Mise � jour des donn�es des entit�s
+	 * Mise   jour des donn es des entit s
 	 */
 	public void update() {
 		m_player.update();
 	}
 
 	/**
-	 * Affichage des �l�ments
+	 * Affichage des  l ments
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
