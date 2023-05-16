@@ -36,9 +36,14 @@ public class Collision {
 	 * @return si l'entity est en collision avec n'importe quel obstacle collisionable
 	 */
 	public static boolean collisionObstacles(GamePanel panel, Entity e) {
-		for(Tile tile : panel.m_tileM.m_tile) {
-			if(tile.collision == true && collisionObstacle(e, tile)) {
-				return true;
+		int[][] map_tiles = panel.m_tileM.m_mapTileNum;
+		Tile[] tiles = panel.m_tileM.m_tile;
+		for(int i=0; i < map_tiles.length; i++) {
+			for(int j=0; j < map_tiles[i].length; j++) {
+				Tile tile = tiles[map_tiles[i][j]];
+				if(tile.collision && collisionObstacle(e, tile)) {
+					return true;
+				}
 			}
 		}
 		
