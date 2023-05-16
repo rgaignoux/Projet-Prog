@@ -10,7 +10,7 @@ import tile.Tile;
 public class Collision {
 	
 	public static Rectangle getBounds(Entity e) {
-        return new Rectangle(e.m_x, e.m_y, e.width, e.height);
+        return new Rectangle(e.m_x, e.m_y, e.m_width, e.m_height);
     }
 	
 	public static Rectangle getBounds(Tile t) {
