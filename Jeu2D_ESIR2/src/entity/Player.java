@@ -53,12 +53,41 @@ public class Player extends EntityMovable {
 			e.printStackTrace();
 		}
 	}
+	
+	public void collisionplayer(){
+		Heart h=new Heart(m_gp, m_damage, m_damage);
+		SpeedBoots b = new SpeedBoots(m_gp, m_damage, m_damage);
+		Player p = new Player(m_gp, m_keyH);
+		if(Collision.collisionEntity(h,p)) {
+			if(p.m_pv==10) {
+				p.m_pv=0;
+				System.out.println("Vous êtes full life!");
+				}
+			else if(p.m_pv<=10) {
+				p.m_pv=p.m_pv +1;
+				System.out.println("Vous avez gagnez 1 point de vie");
+				
+			}
+			else {
+				p.m_pv=0;
+				System.out.println("Vous avez perdu");
+				
+			}
+		}
+		if(Collision.collisionEntity(b,p)) {
+			p.m_speed=p.m_speed*2;
+			
+		}
+			
+		
+	}
 
 	/**
 	 * Mise � jour des donn�es du joueur
 	 */
 	public void update() {
 		deplacement(m_keyH);
+		collisionplayer();
 	}
 
 	public void deplacement(KeyHandler k) {

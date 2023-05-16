@@ -6,13 +6,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 
-public class Heart extends Objet{
+public class SpeedBoots extends Objet{
 	
-	private static BufferedImage image_heart;
+	private static BufferedImage image_speedboots;
 	
 	
-	public Heart(GamePanel a_gp, int p_x, int p_y) {
-		super(a_gp,p_x,p_y,image_heart,1,3);
+	public SpeedBoots(GamePanel a_gp, int p_x, int p_y) {
+		super(a_gp,p_x,p_y,image_speedboots,1,3);
+		this.getHeartImage();
 		
 	}
 	 
@@ -32,3 +33,4 @@ public class Heart extends Objet{
 	
 	
 }
+
