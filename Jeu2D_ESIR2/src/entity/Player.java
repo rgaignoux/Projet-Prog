@@ -16,7 +16,6 @@ import main.KeyHandler;
  */
 public class Player extends Entity{
 
-	GamePanel m_gp;
 	KeyHandler m_keyH;
 	
 	/**
