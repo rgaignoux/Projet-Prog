@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -23,12 +24,15 @@ public class TileManager {
 	public Tile[] m_tile;			//tableau de toutes les tiles possibles dans le jeu
 	int m_maxTiles = 10;	//nombre maximum de tiles chargeable dans le jeu
 	public int m_mapTileNum[][];	//r�partition des tiles dans la carte du jeu
+	public List<Obstacle> listeObstacle;
 	
 	/**
 	 * Constructeur
 	 * @param gp
 	 */
 	public TileManager(GamePanel gp) {
+
+		listeObstacle = new ArrayList<>();
 		this.m_gp =  gp;
 		m_tile = new Tile[m_maxTiles];
 		m_mapTileNum = new int[gp.MAX_SCREEN_COL][gp.MAX_SCREE_ROW];
@@ -41,22 +45,22 @@ public class TileManager {
 	 */
 	public void getTileImage() {
 		try {
-			m_tile[0] = new Tile(false);
+			m_tile[0] = new Tile();
 			m_tile[0].m_image = ImageIO.read(getClass().getResource("/tiles/GRASS.png"));
 			
-			m_tile[1] = new Tile(true);
+			m_tile[1] = new Tile();
 			m_tile[1].m_image = ImageIO.read(getClass().getResource("/tiles/BRICK2.png"));
 			
-			m_tile[2] = new Tile(false);
+			m_tile[2] = new Tile();
 			m_tile[2].m_image = ImageIO.read(getClass().getResource("/tiles/WATER.png"));
 			
-			m_tile[3] = new Tile(false);
+			m_tile[3] = new Tile();
 			m_tile[3].m_image = ImageIO.read(getClass().getResource("/tiles/LAVA.png"));
 			
-			m_tile[4] = new Tile(false);
+			m_tile[4] = new Tile();
 			m_tile[4].m_image = ImageIO.read(getClass().getResource("/tiles/SAND.png"));
 			
-			m_tile[5] = new Tile(false);
+			m_tile[5] = new Tile();
 			m_tile[5].m_image = ImageIO.read(getClass().getResource("/tiles/SNOW.png"));
 			
 		} catch (IOException e) {
@@ -84,6 +88,13 @@ public class TileManager {
 					String numbers[] = line.split(" ");
 					int num = Integer.parseInt(numbers[col]);
 					m_mapTileNum [col][row] = num;
+					Obstacle obstacle = new Obstacle(row*48, col*48, 48, 48);
+					System.out.println(obstacle.m_x);
+					System.out.println(obstacle.m_y);
+					if(num == 1) {
+						obstacle.collision = true;
+					}
+					listeObstacle.add(obstacle);
 					col++;
 				}
 				if (col == m_gp.MAX_SCREEN_COL) {

@@ -63,8 +63,8 @@ public class Player extends EntityMovable {
 
 	public void deplacement(KeyHandler k) {
 		int code = k.keyP;
-		System.out.println(code);
-		//if (Collision.collisionObstacles(m_gp, this)) {
+		//System.out.println(Collision.collisionObstacles(m_gp, this));
+		if (!Collision.collisionObstacles(m_gp, this)) {
 			if (code == 90) {
 				this.goUp();
 			}
@@ -77,7 +77,7 @@ public class Player extends EntityMovable {
 			if (code == 68) {
 				this.goRight();
 			}
-		//}
+		}
 
 	}
 

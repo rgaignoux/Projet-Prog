@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import main.GamePanel;
 import tile.TileManager;
-
+import tile.Obstacle;
 import tile.Tile;
 
 public class Collision {
@@ -13,19 +13,19 @@ public class Collision {
         return new Rectangle(e.m_x, e.m_y, e.m_width, e.m_height);
     }
 	
-	public static Rectangle getBounds(Tile t) {
-        return new Rectangle(t.m_x, t.m_y, t.width, t.height);
+	public static Rectangle getBounds(Obstacle o) {
+        return new Rectangle(o.m_x, o.m_y, o.m_width, o.m_height);
     }
 	
 	/**
 	 * Vérifie si une entity est en collision avec un obstacle
 	 * @param e une entity (héros, enemy, ...)
-	 * @param t un obstacle
+	 * @param o un obstacle
 	 * @return si l'entity est en collision avec la tile
 	 */
-	public static boolean collisionObstacle(Entity e, Tile t) {
+	public static boolean collisionObstacle(Entity e, Obstacle o) {
 		Rectangle r_entity = getBounds(e);
-		Rectangle r_obstacle = getBounds(t);
+		Rectangle r_obstacle = getBounds(o);
 		return r_entity.intersects(r_obstacle);
 	}
 	
@@ -36,17 +36,11 @@ public class Collision {
 	 * @return si l'entity est en collision avec n'importe quel obstacle collisionable
 	 */
 	public static boolean collisionObstacles(GamePanel panel, Entity e) {
-		int[][] map_tiles = panel.m_tileM.m_mapTileNum;
-		Tile[] tiles = panel.m_tileM.m_tile;
-		for(int i=0; i < map_tiles.length; i++) {
-			for(int j=0; j < map_tiles[i].length; j++) {
-				Tile tile = tiles[map_tiles[i][j]];
-				if(tile.collision && collisionObstacle(e, tile)) {
-					return true;
-				}
+		for(Obstacle o : panel.m_tileM.listeObstacle){
+			if(collisionObstacle(e,o) && o.collision) {
+				return true;
 			}
 		}
-		
 		return false;
 	}
 	

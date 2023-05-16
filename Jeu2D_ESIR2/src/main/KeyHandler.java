@@ -7,13 +7,13 @@ import java.awt.event.KeyListener;
  * Gestionnaire d'�v�nements (touche clavier)
  *
  */
-public class KeyHandler implements KeyListener{
+public class KeyHandler implements KeyListener {
 
 	public int keyP;
-	
+
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+
 	}
 
 	@Override
