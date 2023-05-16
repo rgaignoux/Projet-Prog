@@ -4,11 +4,14 @@ import java.awt.Dimension;
 import java.awt.Color;
 import javax.swing.JPanel;
 
+import entity.Entity;
 import entity.Player;
 import tile.TileManager;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Panel principal du jeu contenant la map principale
@@ -34,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread m_gameThread;
 	Player m_player;
 	public TileManager m_tileM;
+	public List<Entity> listeEntity;
 
 	/**
 	 * Constructeur
@@ -43,6 +47,8 @@ public class GamePanel extends JPanel implements Runnable {
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH);
 		m_tileM = new TileManager(this);
+		
+		listeEntity = new ArrayList<>();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);

@@ -18,6 +18,8 @@ import main.KeyHandler;
 public class Player extends EntityMovable {
 
 	KeyHandler m_keyH;
+	boolean usArc = false;
+	boolean usSword = true;
 
 	/**
 	 * Constructeur de Player
@@ -30,6 +32,11 @@ public class Player extends EntityMovable {
 		this.m_keyH = a_keyH;
 		this.setDefaultValues();
 		this.getPlayerImage();
+	}
+	
+	public int[] getPostion() {
+		int[] p = {m_x, m_y};
+		return p;
 	}
 
 	/**
@@ -48,38 +55,15 @@ public class Player extends EntityMovable {
 	public void getPlayerImage() {
 		// gestion des expections
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/player/superhero.png"));
+			if(usSword) {
+				m_idleImage = ImageIO.read(getClass().getResource("/player/heroEpee.png"));
+			} else {
+				m_idleImage = ImageIO.read(getClass().getResource("/player/heroArc.png"));
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void collisionplayer(){
-		Heart h=new Heart(m_gp, m_damage, m_damage);
-		SpeedBoots b = new SpeedBoots(m_gp, m_damage, m_damage);
-		Player p = new Player(m_gp, m_keyH);
-		if(Collision.collisionEntity(h,p)) {
-			if(p.m_pv==10) {
-				p.m_pv=0;
-				System.out.println("Vous êtes full life!");
-				}
-			else if(p.m_pv<=10) {
-				p.m_pv=p.m_pv +1;
-				System.out.println("Vous avez gagnez 1 point de vie");
-				
-			}
-			else {
-				p.m_pv=0;
-				System.out.println("Vous avez perdu");
-				
-			}
-		}
-		if(Collision.collisionEntity(b,p)) {
-			p.m_speed=p.m_speed*2;
-			
-		}
-			
-		
 	}
 
 	/**
@@ -87,12 +71,13 @@ public class Player extends EntityMovable {
 	 */
 	public void update() {
 		deplacement(m_keyH);
-		collisionplayer();
+		getPlayerImage();
+		weapon(m_keyH);
 	}
 
 	public void deplacement(KeyHandler k) {
 		int code = k.keyP;
-		//System.out.println(Collision.collisionObstacles(m_gp, this));
+		System.out.println(code);
 		if (!Collision.collisionObstacles(m_gp, this)) {
 			if (code == 90) {
 				this.goUp();
@@ -107,7 +92,18 @@ public class Player extends EntityMovable {
 				this.goRight();
 			}
 		}
-
+	}
+	
+	public void weapon(KeyHandler k) {
+		int code = k.keyP;
+		if (code == 49) {
+			this.usSword = true;
+			this.usArc = false;
+		}
+		if (code == 50) {
+			this.usSword = false;
+			this.usArc = true;
+		}
 	}
 
 	/**
