@@ -2,6 +2,7 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -14,14 +15,15 @@ import main.KeyHandler;
  * D�fintition du comportement d'un joueur
  *
  */
-public class Player extends EntityMovable{
+public class Player extends EntityMovable {
 
 	KeyHandler m_keyH;
-	
+
 	/**
 	 * Constructeur de Player
-	 * @param a_gp GamePanel, pannel principal du jeu
-	 * @param a_keyH KeyHandler, gestionnaire des touches 
+	 * 
+	 * @param a_gp   GamePanel, pannel principal du jeu
+	 * @param a_keyH KeyHandler, gestionnaire des touches
 	 */
 	public Player(GamePanel a_gp, KeyHandler a_keyH) {
 		this.m_gp = a_gp;
@@ -29,7 +31,7 @@ public class Player extends EntityMovable{
 		this.setDefaultValues();
 		this.getPlayerImage();
 	}
-	
+
 	/**
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
@@ -39,36 +41,57 @@ public class Player extends EntityMovable{
 		m_speed = 4;
 		m_pv = 10;
 	}
-	
+
 	/**
 	 * R�cup�ration de l'image du personnage
 	 */
 	public void getPlayerImage() {
-		//gestion des expections 
+		// gestion des expections
 		try {
 			m_idleImage = ImageIO.read(getClass().getResource("/player/superhero.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Mise � jour des donn�es du joueur
 	 */
 	public void update() {
-		
+		deplacement(m_keyH);
 	}
-	
+
+	public void deplacement(KeyHandler k) {
+		int code = k.keyP;
+		System.out.println(code);
+		//if (Collision.collisionObstacles(m_gp, this)) {
+			if (code == 90) {
+				this.goUp();
+			}
+			if (code == 81) {
+				this.goLeft();
+			}
+			if (code == 83) {
+				this.goDown();
+			}
+			if (code == 68) {
+				this.goRight();
+			}
+		//}
+
+	}
+
 	/**
 	 * Affichage du l'image du joueur dans la fen�tre du jeu
-	 * @param a_g2 Graphics2D 
+	 * 
+	 * @param a_g2 Graphics2D
 	 */
 	public void draw(Graphics2D a_g2) {
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
-		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
+		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
-	
-	
+
 }

@@ -4,11 +4,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Gestionnaire d'évènements (touche clavier)
+ * Gestionnaire d'ï¿½vï¿½nements (touche clavier)
  *
  */
 public class KeyHandler implements KeyListener{
 
+	public int keyP;
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
@@ -16,14 +18,12 @@ public class KeyHandler implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// récupère le code du boutton appuyé
-		int code = e.getKeyCode();
-		System.out.println(code);
+		keyP = e.getKeyCode();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
+		keyP = 0;
 	}
 
 }
