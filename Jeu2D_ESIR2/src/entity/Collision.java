@@ -2,6 +2,9 @@ package entity;
 
 import java.awt.Rectangle;
 
+import main.GamePanel;
+import tile.TileManager;
+
 import tile.Tile;
 
 public class Collision {
@@ -24,6 +27,22 @@ public class Collision {
 		Rectangle r_entity = getBounds(e);
 		Rectangle r_obstacle = getBounds(t);
 		return r_entity.intersects(r_obstacle);
+	}
+	
+	/**
+	 * Vérifie si une entity est en collision avec un obstacle parmi tous les obstacles
+	 * @param panel le GamePanel
+	 * @param e une entity (héros, enemy, ...)
+	 * @return si l'entity est en collision avec n'importe quel obstacle collisionable
+	 */
+	public boolean collisionObstacles(GamePanel panel, Entity e) {
+		for(Tile tile : panel.m_tileM.m_tile) {
+			if(tile.collision == true && collisionObstacle(e, tile)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
