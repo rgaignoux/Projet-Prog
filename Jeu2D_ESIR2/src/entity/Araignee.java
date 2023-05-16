@@ -24,7 +24,6 @@ public class Araignee extends Enemy{
 	}
 	
 	public void update() {
-		
 	}
 	
 	
@@ -43,7 +42,6 @@ public class Araignee extends Enemy{
 	}
 	
 	public void deplacement() {
-		
 	}
 
 }
