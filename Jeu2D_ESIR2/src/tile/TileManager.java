@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import entity.Entity;
 import main.GamePanel;
+import map.Labyrinthe;
 
 /**
  * 
@@ -97,6 +98,8 @@ public class TileManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		m_mapTileNum = Labyrinthe.generateMaze(m_mapTileNum);
 	}
 	
 	/**
