@@ -2,6 +2,7 @@ package entity;
 
 import java.awt.image.BufferedImage;
 
+
 import main.GamePanel;
 
 public class Enemy extends EntityMovable{

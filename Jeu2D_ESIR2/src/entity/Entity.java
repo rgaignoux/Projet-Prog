@@ -9,8 +9,9 @@ import main.GamePanel;
  *
  */
 public abstract class Entity {
+	public GamePanel m_gp;
 	public int m_x, m_y;				//position sur la map
 	public BufferedImage m_idleImage;	//Une image de l'entit�
-	public int width;
-	public int height;
+	public int m_width;
+	public int m_height;
 }
