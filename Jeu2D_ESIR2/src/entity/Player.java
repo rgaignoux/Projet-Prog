@@ -37,6 +37,7 @@ public class Player extends Entity{
 		m_x = 100;
 		m_y = 100;
 		m_speed = 4;
+		m_pv = 10;
 	}
 	
 	/**
@@ -57,8 +58,6 @@ public class Player extends Entity{
 	 * Mise � jour des donn�es du joueur
 	 */
 	public void update() {
-		
-		
 		
 	}
 	

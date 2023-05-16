@@ -14,5 +14,6 @@ public abstract class Entity {
 	public BufferedImage m_idleImage;	//Une image de l'entit�
 	public int width;
 	public int height;
-	GamePanel m_gp;
+	public int m_pv;
+	public GamePanel m_gp;
 }
