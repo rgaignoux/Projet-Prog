@@ -14,7 +14,7 @@ import main.KeyHandler;
  * D�fintition du comportement d'un joueur
  *
  */
-public class Player extends Entity{
+public class Player extends EntityMovable{
 
 	KeyHandler m_keyH;
 	
@@ -51,8 +51,6 @@ public class Player extends Entity{
 			e.printStackTrace();
 		}
 	}
-	
-	
 	
 	/**
 	 * Mise � jour des donn�es du joueur
