@@ -12,6 +12,6 @@ public abstract class Entity {
 	public GamePanel m_gp;
 	public int m_x, m_y;				//position sur la map
 	public BufferedImage m_idleImage;	//Une image de l'entit�
-	public int m_width;
-	public int m_height;
+	public int m_width = 42;
+	public int m_height = 42;
 }

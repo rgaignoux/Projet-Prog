@@ -41,8 +41,6 @@ public class Player extends EntityMovable {
 	protected void setDefaultValues() {
 		m_x = 100;
 		m_y = 100;
-		m_width = 48;
-		m_height = 48;
 		m_speed = 2;
 		m_pv = 10;
 	}
@@ -123,7 +121,7 @@ public class Player extends EntityMovable {
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
 		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.drawImage(l_image, m_x, m_y, m_width, m_height, null);
 	}
 
 }
