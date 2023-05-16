@@ -122,8 +122,4 @@ public class TileManager {
 		}
 		
 	}
-	
-	public boolean collision(Entity e) {
-		return true;
-	}
 }
