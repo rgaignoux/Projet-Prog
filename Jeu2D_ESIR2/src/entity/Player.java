@@ -50,8 +50,8 @@ public class Player extends EntityMovable {
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 100;
-		m_y = 100;
+		m_x = 5;
+		m_y = 5;
 		m_speed = 3;
 		m_pv = 10;
 	}
@@ -123,12 +123,12 @@ public class Player extends EntityMovable {
 			if (!Collision.collisionObstacles(m_gp, positionFuture))
 				this.goLeft();
 		}
-		if (code == 83 && positionFuture.m_y < m_gp.SCREEN_HEIGHT) {
+		if (code == 83 && positionFuture.m_y < m_gp.SCREEN_HEIGHT - m_gp.TILE_SIZE) {
 			positionFuture.goDown();
 			if (!Collision.collisionObstacles(m_gp, positionFuture))
 				this.goDown();
 		}
-		if (code == 68 && positionFuture.m_x < m_gp.SCREEN_WIDTH) {
+		if (code == 68 && positionFuture.m_x < m_gp.SCREEN_WIDTH - m_gp.TILE_SIZE) {
 			positionFuture.goRight();
 			if (!Collision.collisionObstacles(m_gp, positionFuture))
 				this.goRight();

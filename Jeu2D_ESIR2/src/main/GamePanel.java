@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Param tres de l' cran
 	final int ORIGINAL_TILE_SIZE = 16; // une tuile de taille 16x16
-	final int SCALE = 3; //  chelle utilis e pour agrandir l'affichage
+	final int SCALE = 3; // chelle utilis e pour agrandir l'affichage
 	public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48
 	public final int MAX_SCREEN_COL = 16;
 	public final int MAX_SCREE_ROW = 12; // ces valeurs donnent une r solution 4:3
@@ -39,29 +39,14 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread m_gameThread;
 	Player m_player;
 	public TileManager m_tileM;
-	public List<Obstacle> m_listeObstacleCollisionnables;
+	public List<Obstacle> m_listeObstacleCollisionnables = new ArrayList<>();;
 	public List<Entity> listeEntity = new ArrayList<>();;
 
 	/**
 	 * Initialiser les entity (enemy, objects, ...)
 	 */
 	public void initialize() {
-		Spider spider1 = new Spider(this);
-		Spider spider2 = new Spider(this);
-		listeEntity.add(spider2);
-		listeEntity.add(spider1);
-	}
-	/**
-	 * Constructeur
-	 */
-	public GamePanel() {
-		m_FPS = 60;
-		m_keyH = new KeyHandler();
-		m_player = new Player(this, m_keyH);
-		m_tileM = new TileManager(this);
-
 		// Initialisation de la liste des obstacles collisionnables, cad les briques
-		m_listeObstacleCollisionnables = new ArrayList<>();
 		int[][] mapNum = m_tileM.m_mapTileNum;
 		for (int i = 0; i < mapNum.length; i++) {
 			for (int j = 0; j < mapNum[i].length; j++) {
@@ -71,7 +56,21 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 		}
-		
+
+		Spider spider1 = new Spider(this);
+		Spider spider2 = new Spider(this);
+		listeEntity.add(spider2);
+		listeEntity.add(spider1);
+	}
+
+	/**
+	 * Constructeur
+	 */
+	public GamePanel() {
+		m_FPS = 60;
+		m_keyH = new KeyHandler();
+		m_player = new Player(this, m_keyH);
+		m_tileM = new TileManager(this);
 		this.initialize();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -96,11 +95,11 @@ public class GamePanel extends JPanel implements Runnable {
 
 		while (m_gameThread != null) { // Tant que le thread du jeu est actif
 
-			// Permet de mettre   jour les diff rentes variables du jeu
+			// Permet de mettre jour les diff rentes variables du jeu
 			this.update();
 
 			// Dessine sur l' cran le personnage et la map avec les nouvelles informations.
-			// la m thode "paintComponent" doit obligatoirement  tre appel e avec
+			// la m thode "paintComponent" doit obligatoirement tre appel e avec
 			// "repaint()"
 			this.repaint();
 
@@ -124,34 +123,35 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	/**
-	 * Mise   jour des donn es des entit s
+	 * Mise jour des donn es des entit s
 	 */
 	public void update() {
 		m_player.update();
-		for(Entity e : listeEntity) {
+		for (Entity e : listeEntity) {
 			e.update();
 		}
 	}
 
 	/**
-	 * Affichage des  l ments
+	 * Affichage des l ments
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		m_tileM.draw(g2);
 		m_player.draw(g2);
-		for(Entity e : listeEntity) {
+		for (Entity e : listeEntity) {
 			e.draw(g2);
 		}
 		g2.dispose();
 	}
-	
+
 	/**
 	 * Reset la salle lorsque l'on change de salle
 	 */
 	public void resetSalle() {
 		listeEntity.clear();
+		m_listeObstacleCollisionnables.clear();
 		this.initialize();
 	}
 

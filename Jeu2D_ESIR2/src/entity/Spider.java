@@ -65,7 +65,7 @@ public class Spider extends Enemy {
 
 	public void update() {
 		// L'araignée change de direction a chaque collision
-		if (Collision.collisionObstacles(m_gp, this) || this.m_x < 0 || this.m_x > m_gp.SCREEN_WIDTH || this.m_y < 0 || this.m_y > m_gp.SCREEN_HEIGHT) {
+		if (Collision.collisionObstacles(m_gp, this) || this.m_x < 0 || this.m_x > m_gp.SCREEN_WIDTH - m_gp.TILE_SIZE/2 || this.m_y < 0 || this.m_y > m_gp.SCREEN_HEIGHT - m_gp.TILE_SIZE/2) {
 			x_direction = -x_direction;
 			y_direction = -y_direction;
 		}
