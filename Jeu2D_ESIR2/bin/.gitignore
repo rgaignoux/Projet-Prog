@@ -1,7 +1,9 @@
 /entity/
-/fleche/
-/enemy/
-/player/
+/main/
+/tile/
 /maps/
+<<<<<<< HEAD
 /tiles/
 /main/
+=======
+>>>>>>> branch 'master' of https://github.com/rgaignoux/Projet-Prog.git
