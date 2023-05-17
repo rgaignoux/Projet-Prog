@@ -65,8 +65,8 @@ public class Player extends EntityMovable {
 		m_y = 5;
 		m_speed = 3;
 		m_pv = 5;
-		m_width = 39;
-		m_height = 39;
+		m_width = 32;
+		m_height = 32;
 	}
 
 	protected void copyPosition(Player p) {
