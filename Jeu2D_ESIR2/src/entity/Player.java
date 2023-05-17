@@ -79,8 +79,10 @@ public class Player extends EntityMovable {
 		// gestion des expections
 		try {
 			if (usSword) {
+				m_speed = 5;
 				m_idleImage = ImageIO.read(getClass().getResource("/player/heroEpee.png"));
 			} else {
+				m_speed = 3;
 				m_idleImage = ImageIO.read(getClass().getResource("/player/heroArc.png"));
 			}
 

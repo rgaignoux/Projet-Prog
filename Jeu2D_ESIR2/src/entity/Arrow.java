@@ -54,8 +54,15 @@ public class Arrow extends Player {
 				} else if (x_direction == 0 && y_direction == -1) {
 					p_y_arrow -= arrow_speed;
 				}
-			} else if (Collision.collisionObstacles(m_gp, this) || Collision.collisionEntity(this, e)) {
+			} else if (e.getClass().getName().equals("entity.Spider") && Collision.collisionEntity(this, e)) {
+				System.out.println("ici");
+				m_gp.listeEntity.remove(e);
 				killArrow = true;
+				break;
+			}
+			else if (Collision.collisionObstacles(m_gp, this) || Collision.collisionEntity(this, e) || this.m_x < 0 || this.m_x > m_gp.SCREEN_WIDTH - m_gp.TILE_SIZE/2 || this.m_y < 0 || this.m_y > m_gp.SCREEN_HEIGHT - m_gp.TILE_SIZE/2) {
+				killArrow = true;
+				break;
 			}
 		}
 	}

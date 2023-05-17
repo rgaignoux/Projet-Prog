@@ -167,7 +167,6 @@ public class GamePanel extends JPanel implements Runnable {
 		m_player.update();
 		for (Entity e : listeEntity) {
 			e.update();
-			System.out.println(e.getClass().getName());
 		}
 	}
 
