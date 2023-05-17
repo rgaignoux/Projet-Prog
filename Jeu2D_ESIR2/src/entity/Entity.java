@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import main.GamePanel;
@@ -14,4 +15,7 @@ public abstract class Entity {
 	public BufferedImage m_idleImage;	//Une image de l'entit�
 	public int m_width = 42;
 	public int m_height = 42;
+	
+	public abstract void update();
+	public abstract void draw(Graphics2D a_g2);
 }

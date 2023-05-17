@@ -2,7 +2,7 @@ package entity;
 
 import main.GamePanel;
 
-public class Enemy extends EntityMovable{
+public abstract class Enemy extends EntityMovable{
 	
 	/**
 	 * Constructeur

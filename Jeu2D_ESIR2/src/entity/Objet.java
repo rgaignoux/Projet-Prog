@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 
 import main.GamePanel;
 
-public class Objet extends Entity{
+public abstract class Objet extends Entity{
 	
 	public Objet(GamePanel a_gp,int x, int y, BufferedImage idleImage, int width ,int height) {
 		m_gp=a_gp;

@@ -38,8 +38,6 @@ public class GamePanel extends JPanel implements Runnable {
 	KeyHandler m_keyH;
 	Thread m_gameThread;
 	Player m_player;
-	Spider spider1;
-	Spider spider2;
 	public TileManager m_tileM;
 	public List<Obstacle> m_listeObstacleCollisionnables;
 	public List<Entity> listeEntity;
@@ -51,8 +49,6 @@ public class GamePanel extends JPanel implements Runnable {
 		m_FPS = 60;
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH);
-		spider2 = new Spider(this, 250, 250);
-		spider1 = new Spider(this, 150, 350);
 		m_tileM = new TileManager(this);
 
 		// Initialisation de la liste des obstacles collisionnables, cad les briques
@@ -68,6 +64,10 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		
 		listeEntity = new ArrayList<>();
+		Spider spider1 = new Spider(this);
+		Spider spider2 = new Spider(this);
+		listeEntity.add(spider2);
+		listeEntity.add(spider1);
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -123,8 +123,9 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
-		spider1.update();
-		spider2.update();
+		for(Entity e : listeEntity) {
+			e.update();
+		}
 	}
 
 	/**
@@ -135,8 +136,9 @@ public class GamePanel extends JPanel implements Runnable {
 		Graphics2D g2 = (Graphics2D) g;
 		m_tileM.draw(g2);
 		m_player.draw(g2);
-		spider1.draw(g2);
-		spider2.draw(g2);
+		for(Entity e : listeEntity) {
+			e.draw(g2);
+		}
 		g2.dispose();
 	}
 

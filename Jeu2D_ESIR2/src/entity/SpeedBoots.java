@@ -30,6 +30,13 @@ public class SpeedBoots extends Objet{
 		BufferedImage l_image = m_idleImage;
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

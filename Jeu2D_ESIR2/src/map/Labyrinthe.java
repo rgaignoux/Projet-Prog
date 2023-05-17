@@ -2,8 +2,8 @@ package map;
 import java.util.*;
 
 public class Labyrinthe {
-	private static final int WALL = 0;
-    private static final int PATH = 4;
+	public static final int WALL = 1;
+	public static final int PATH = 4;
 
     public static int[][] generateMaze(int[][] matrix) {
         int rows = matrix.length;
