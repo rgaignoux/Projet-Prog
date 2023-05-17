@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 * Initialiser les entity (enemy, objects, ...)
 	 */
 	public void initialize() {
-		// Initialisation de la liste des obstacles collisionnables, cad les briques
+		// Initialisation de la liste des obstacles collisionnables
 		int[][] mapNum = m_tileM.m_mapTileNum;
 		for (int i = 0; i < mapNum.length; i++) {
 			for (int j = 0; j < mapNum[i].length; j++) {
@@ -66,21 +66,29 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 		}
+		
+		// Création des spiders
 
 		Spider spider1 = new Spider(this);
 		Spider spider2 = new Spider(this);
-		listeEntity.add(spider2);
+		Spider spider3 = new Spider(this);
+		Spider spider4 = new Spider(this);
 		listeEntity.add(spider1);
+		listeEntity.add(spider2);
+		listeEntity.add(spider3);
+		listeEntity.add(spider4);
+		
+		// Création des objets
 		
 		Random r =new Random();
 		int randomX = r.nextInt(MAX_SCREEN_COL);
 		int randomY = r.nextInt(MAX_SCREE_ROW);
 		Heart h = new Heart(this, randomX*TILE_SIZE, randomY*TILE_SIZE);
 		listeEntity.add(h);
+		
 		Random r1 =new Random();
 		int randomX1 = r1.nextInt(MAX_SCREEN_COL);
-		int randomY1 = r1.nextInt(MAX_SCREE_ROW);
-		
+		int randomY1 = r1.nextInt(MAX_SCREE_ROW);	
 		SpeedBoots sb = new SpeedBoots(this, randomX1*TILE_SIZE, randomY1*TILE_SIZE);
 		listeEntity.add(sb);
 		
@@ -89,7 +97,6 @@ public class GamePanel extends JPanel implements Runnable {
 			randomY = r.nextInt(MAX_SCREE_ROW);
 			
 		}
-		
 		h.m_x = randomX*TILE_SIZE;
 		h.m_y = randomY*TILE_SIZE;
 		

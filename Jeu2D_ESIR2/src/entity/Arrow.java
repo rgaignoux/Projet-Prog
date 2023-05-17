@@ -55,7 +55,6 @@ public class Arrow extends Player {
 					p_y_arrow -= arrow_speed;
 				}
 			} else if (e.getClass().getName().equals("entity.Spider") && Collision.collisionEntity(this, e)) {
-				System.out.println("ici");
 				m_gp.listeEntity.remove(e);
 				killArrow = true;
 				break;

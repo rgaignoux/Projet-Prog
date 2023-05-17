@@ -24,10 +24,10 @@ public class Player extends EntityMovable {
 	KeyHandler m_keyH;
 	boolean usArc = false;
 	boolean usSword = true;
-	public boolean [] life = new boolean[10];
+	public int pv_max = 5;
+	public boolean[] life = new boolean[pv_max];
 	public List<Arrow> listArrow;
 	public boolean dead = false;
-	public int pv_max = 10;
 	public BufferedImage m_NoPvImage;
 	public BufferedImage m_PVImage;
 	public boolean movingArrow = false;
@@ -36,6 +36,8 @@ public class Player extends EntityMovable {
 	public boolean loose = false;
 	public int tickDamage = 0;
 	public boolean canTakeDamage = true;
+	public int speedSword = 3;
+	public int speedBow = 2;
 
 	/**
 	 * Constructeur de Player
@@ -49,7 +51,7 @@ public class Player extends EntityMovable {
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.getPvImage();
-		for(int i=0; i<life.length; i++) {
+		for (int i = 0; i < life.length; i++) {
 			life[i] = true;
 		}
 		listArrow = new ArrayList<>();
@@ -62,7 +64,7 @@ public class Player extends EntityMovable {
 		m_x = 5;
 		m_y = 5;
 		m_speed = 3;
-		m_pv = 10;
+		m_pv = 5;
 		m_width = 39;
 		m_height = 39;
 	}
@@ -79,10 +81,10 @@ public class Player extends EntityMovable {
 		// gestion des expections
 		try {
 			if (usSword) {
-				m_speed = 5;
+				m_speed = speedSword;
 				m_idleImage = ImageIO.read(getClass().getResource("/player/heroEpee.png"));
 			} else {
-				m_speed = 3;
+				m_speed = speedBow;
 				m_idleImage = ImageIO.read(getClass().getResource("/player/heroArc.png"));
 			}
 
@@ -92,7 +94,7 @@ public class Player extends EntityMovable {
 	}
 
 	/**
-	 * Mise   jour des donn es du joueur
+	 * Mise jour des donn es du joueur
 	 */
 	public void update() {
 		deplacement(m_keyH);
@@ -110,16 +112,16 @@ public class Player extends EntityMovable {
 			}
 		}
 		tickDamage++;
-		if(tickDamage == 20) {
+		if (tickDamage == 20) {
 			tickDamage = 0;
 			canTakeDamage = true;
 		}
-		
-		if(this.nbSalle == 2) {
+
+		if (this.nbSalle == 2) {
 			this.win = true;
 		}
-		
-		if(m_pv <= 0) {
+
+		if (m_pv <= 0) {
 			this.loose = true;
 		}
 	}
@@ -154,7 +156,7 @@ public class Player extends EntityMovable {
 		}
 
 	}
-	
+
 	public void weapon(KeyHandler k) {
 		int code = k.keyP;
 		if (code == 49) {
@@ -171,9 +173,9 @@ public class Player extends EntityMovable {
 		int code = k.keyP;
 		Player positionFuture = new Player(this.m_gp, this.m_keyH);
 		positionFuture.copyPosition(this);
-		
+
 		// Changement de salle
-		if(this.m_x > m_gp.SCREEN_WIDTH - m_gp.TILE_SIZE && this.m_y > m_gp.SCREEN_HEIGHT - m_gp.TILE_SIZE) {
+		if (this.m_x > m_gp.SCREEN_WIDTH - m_gp.TILE_SIZE - 25 && this.m_y > m_gp.SCREEN_HEIGHT - 25 - m_gp.TILE_SIZE) {
 			this.m_x = 5;
 			this.m_y = 5;
 			this.m_gp.m_tileM.m_mapTileNum = Labyrinthe.generateMaze(this.m_gp.m_tileM.m_mapTileNum);
@@ -235,7 +237,7 @@ public class Player extends EntityMovable {
 	public void lifeUpdate() {
 		for (Entity e : m_gp.listeEntity) {
 			if (e.getClass().getName().equals("entity.Spider") && Collision.collisionEntity(this, e) && m_pv > 0) {
-				if(canTakeDamage) {
+				if (canTakeDamage) {
 					m_pv--;
 					life[m_pv] = false;
 					if (m_pv == 0) {
@@ -248,11 +250,14 @@ public class Player extends EntityMovable {
 				m_pv++;
 				life[m_pv - 1] = true;
 				m_gp.listeEntity.remove(e);
+				break;
 			}
-			
+
 			if (e.getClass().getName().equals("entity.SpeedBoots") && Collision.collisionEntity(this, e)) {
-				m_speed = 5;
+				speedSword += 1;
+				speedBow += 1;
 				m_gp.listeEntity.remove(e);
+				break;
 			}
 		}
 	}
