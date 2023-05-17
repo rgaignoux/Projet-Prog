@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.Color;
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import entity.Entity;
@@ -12,6 +14,8 @@ import tile.TileManager;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public TileManager m_tileM;
 	public List<Obstacle> m_listeObstacleCollisionnables = new ArrayList<>();;
 	public List<Entity> listeEntity = new ArrayList<>();;
+	public BufferedImage win_screen;
 
 	/**
 	 * Initialiser les entity (enemy, objects, ...)
@@ -136,13 +141,31 @@ public class GamePanel extends JPanel implements Runnable {
 	 * Affichage des l ments
 	 */
 	public void paintComponent(Graphics g) {
+		
+		try {
+			win_screen = ImageIO.read(getClass().getResource("/loose_win_screens/win_screen.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+		
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		m_tileM.draw(g2);
-		m_player.draw(g2);
-		for (Entity e : listeEntity) {
-			e.draw(g2);
+		
+		if(m_player.nbSalle == 1) {
+			g2.drawImage(win_screen, 0, 0, this.SCREEN_WIDTH, this.SCREEN_HEIGHT, null);
 		}
+		else {
+			m_tileM.draw(g2);
+			m_player.draw(g2);
+			for (Entity e : listeEntity) {
+				e.draw(g2);
+			}
+		}
+		
 		g2.dispose();
 	}
 

@@ -29,6 +29,7 @@ public class Player extends EntityMovable {
 	public int pv_max = 10;
 	public BufferedImage m_NoPvImage;
 	public BufferedImage m_PVImage;
+	public int nbSalle = 0;
 
 	/**
 	 * Constructeur de Player
@@ -111,6 +112,7 @@ public class Player extends EntityMovable {
 			this.m_y = 5;
 			this.m_gp.m_tileM.m_mapTileNum = Labyrinthe.generateMaze(this.m_gp.m_tileM.m_mapTileNum);
 			this.m_gp.resetSalle();
+			nbSalle++;
 		}
 
 		if (code == 90 && positionFuture.m_y > 0) {
