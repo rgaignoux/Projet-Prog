@@ -1,5 +1,7 @@
 package entity;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -10,65 +12,73 @@ import utils.Collision;
 
 public class Arrow extends Player {
 
-	public Arrow(GamePanel a_gp, KeyHandler a_keyH) {
+	public Arrow(GamePanel a_gp, KeyHandler a_keyH, int x, int y) {
 		super(a_gp, a_keyH);
+		p_x_arrow = x;
+		p_y_arrow = y;
+		this.m_width = 30;
+		this.m_height = 30;
 	}
 
-	int p_x_arrow = m_x;
-	int p_y_arrow = m_y;
-	int arrow_speed = 6;
+	int p_x_arrow;
+	int p_y_arrow;
+	int arrow_speed = 20;
 	int x_direction = 0;
 	int y_direction = 0;
 	boolean killArrow = false;
+	public BufferedImage m_idleImagea1;
+	public BufferedImage m_idleImagea2;
+	public BufferedImage m_idleImagea3;
+	public BufferedImage m_idleImagea4;
 
-	public void update() {
-		deplacement(m_keyH);
-		getArrowImage();
+	public void updateArrow() {
+		if (!killArrow) {
+			this.m_x = p_x_arrow;
+			this.m_y = p_y_arrow;
+			deplacementArrow(m_keyH);
+			getArrowImage();
+		}
+
 	}
 
-	public void deplacement(KeyHandler k) {
-		int code = k.keyP;
-		System.out.println(code);
-		if (!Collision.collisionObstacles(m_gp, this) /*|| ! Collision.collisionEntity(this, )*/) {
-			if (code == 38) {
-				p_x_arrow -= arrow_speed;
-				x_direction = -1;
-				y_direction = 0;
-			}
-			if (code == 37) {
-				p_y_arrow += arrow_speed;
-				y_direction = 1;
-				x_direction = 0;
-			}
-			if (code == 40) {
-				p_x_arrow += arrow_speed;
-				x_direction = 1;
-				y_direction = 0;
-			}
-			if (code == 39) {
-				p_y_arrow -= arrow_speed;
-				y_direction = -1;
-				x_direction = 0;
+	public void deplacementArrow(KeyHandler k) {
+		for (Entity e : m_gp.listeEntity) {
+			if (!Collision.collisionObstacles(m_gp, this) && !Collision.collisionEntity(this, e)) {
+				if (x_direction == -1 && y_direction == 0) {
+					p_x_arrow -= arrow_speed;
+				} else if (x_direction == 0 && y_direction == 1) {
+					p_y_arrow += arrow_speed;
+				} else if (x_direction == 1 && y_direction == 0) {
+					p_x_arrow += arrow_speed;
+				} else if (x_direction == 0 && y_direction == -1) {
+					p_y_arrow -= arrow_speed;
+				}
+			} else if (Collision.collisionObstacles(m_gp, this) || Collision.collisionEntity(this, e)) {
+				killArrow = true;
 			}
 		}
-		killArrow = true;
 	}
 
 	public void getArrowImage() {
 		// gestion des expections
 		try {
 			if (x_direction == 1) {
-				m_idleImage = ImageIO.read(getClass().getResource("/fleche/right.png"));
+				m_idleImagea1 = ImageIO.read(getClass().getResource("/fleche/right.png"));
 			} else if (x_direction == -1) {
-				m_idleImage = ImageIO.read(getClass().getResource("/fleche/left.png"));
+				m_idleImagea1 = ImageIO.read(getClass().getResource("/fleche/left.png"));
 			} else if (y_direction == 1) {
-				m_idleImage = ImageIO.read(getClass().getResource("/fleche/up.png"));
+				m_idleImagea1 = ImageIO.read(getClass().getResource("/fleche/up.png"));
 			} else if (y_direction == -1) {
-				m_idleImage = ImageIO.read(getClass().getResource("/fleche/down.png"));
+				m_idleImagea1 = ImageIO.read(getClass().getResource("/fleche/down.png"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void drawArrow(Graphics2D a_g2) {
+		BufferedImage l_imagea1 = m_idleImagea1;
+		a_g2.drawImage(l_imagea1, this.p_x_arrow, this.p_y_arrow, 25, 25, null);
 	}
 
 }

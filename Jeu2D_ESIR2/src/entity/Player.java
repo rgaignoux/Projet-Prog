@@ -16,7 +16,7 @@ import map.Labyrinthe;
 import utils.Collision;
 
 /**
- * D�fintition du comportement d'un joueur
+ * D fintition du comportement d'un joueur
  *
  */
 public class Player extends EntityMovable {
@@ -25,11 +25,15 @@ public class Player extends EntityMovable {
 	boolean usArc = false;
 	boolean usSword = true;
 	public List<Boolean> life;
+	public List<Arrow> listArrow;
 	public boolean dead = false;
 	public int pv_max = 10;
 	public BufferedImage m_NoPvImage;
 	public BufferedImage m_PVImage;
+	public boolean movingArrow = false;
 	public int nbSalle = 0;
+	public boolean win = false;
+	public boolean loose = false;
 
 	/**
 	 * Constructeur de Player
@@ -44,17 +48,20 @@ public class Player extends EntityMovable {
 		this.getPlayerImage();
 		this.getPvImage();
 		life = new ArrayList<>();
+		listArrow = new ArrayList<>();
 		updatePv();
 	}
 
 	/**
-	 * Initialisation des donn�es membres avec des valeurs par d�faut
+	 * Initialisation des donn es membres avec des valeurs par d faut
 	 */
 	protected void setDefaultValues() {
 		m_x = 5;
 		m_y = 5;
 		m_speed = 3;
 		m_pv = 10;
+		m_width = 36;
+		m_height = 36;
 	}
 
 	protected void copyPosition(Player p) {
@@ -63,7 +70,7 @@ public class Player extends EntityMovable {
 	}
 
 	/**
-	 * R�cup�ration de l'image du personnage
+	 * R cup ration de l'image du personnage
 	 */
 	public void getPlayerImage() {
 		// gestion des expections
@@ -80,15 +87,60 @@ public class Player extends EntityMovable {
 	}
 
 	/**
-	 * Mise � jour des donn�es du joueur
+	 * Mise   jour des donn es du joueur
 	 */
 	public void update() {
 		deplacement(m_keyH);
 		getPlayerImage();
 		weapon(m_keyH);
 		lifeUpdate();
+		if (!movingArrow) {
+			shoot(m_keyH);
+		}
+		for (Arrow a : listArrow) {
+			movingArrow = false;
+			if (!a.killArrow) {
+				movingArrow = true;
+				a.updateArrow();
+			}
+		}
+		
+		if(this.nbSalle == 2) {
+			this.win = true;
+		}
 	}
 
+	public void shoot(KeyHandler k) {
+		int code = k.keyP;
+		if (usArc) {
+			if (code == 37) {
+				Arrow a = new Arrow(m_gp, k, m_x, m_y);
+				listArrow.add(a);
+				a.x_direction = -1;
+				a.y_direction = 0;
+			}
+			if (code == 40) {
+				Arrow a = new Arrow(m_gp, k, m_x, m_y);
+				listArrow.add(a);
+				a.y_direction = 1;
+				a.x_direction = 0;
+			}
+			if (code == 39) {
+				Arrow a = new Arrow(m_gp, k, m_x, m_y);
+				listArrow.add(a);
+				a.x_direction = 1;
+				a.y_direction = 0;
+			}
+			if (code == 38) {
+				Arrow a = new Arrow(m_gp, k, m_x, m_y);
+				listArrow.add(a);
+				a.y_direction = -1;
+				a.x_direction = 0;
+			}
+		}
+
+	}
+	
 	public void weapon(KeyHandler k) {
 		int code = k.keyP;
 		if (code == 49) {
@@ -113,6 +165,7 @@ public class Player extends EntityMovable {
 			this.m_gp.m_tileM.m_mapTileNum = Labyrinthe.generateMaze(this.m_gp.m_tileM.m_mapTileNum);
 			this.m_gp.resetSalle();
 			nbSalle++;
+			listArrow.clear();
 		}
 
 		if (code == 90 && positionFuture.m_y > 0) {
@@ -147,8 +200,11 @@ public class Player extends EntityMovable {
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn es x et y, et
 		// de taille tileSize (16x16) sans chelle, et 48x48 avec chelle)
-		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.drawImage(l_image, m_x, m_y, m_width, m_height, null);
 		drawPv(a_g2);
+		for (Arrow a : listArrow) {
+			a.drawArrow(a_g2);
+		}
 	}
 
 	public void updatePv() {
