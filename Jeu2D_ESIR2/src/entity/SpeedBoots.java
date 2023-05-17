@@ -12,7 +12,7 @@ public class SpeedBoots extends Objet{
 	
 	
 	public SpeedBoots(GamePanel a_gp, int p_x, int p_y) {
-		super(a_gp,p_x,p_y,image_speedboots,1,3);
+		super(a_gp,p_x,p_y,image_speedboots);
 		this.getHeartImage();
 		
 	}

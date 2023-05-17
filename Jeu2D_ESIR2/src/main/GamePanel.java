@@ -50,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public List<Obstacle> m_listeObstacleCollisionnables = new ArrayList<>();;
 	public List<Entity> listeEntity = new ArrayList<>();;
 	public BufferedImage win_screen;
+	public BufferedImage loose_screen;
 
 	/**
 	 * Initialiser les entity (enemy, objects, ...)
@@ -182,12 +183,22 @@ public class GamePanel extends JPanel implements Runnable {
 			e1.printStackTrace();
 		}
 		
+		try {
+			loose_screen = ImageIO.read(getClass().getResource("/loose_win_screens/game_over.jpeg"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
 		// Si le joueur a visité 2 salles il a gagné
 		if(m_player.win) {
 			g2.drawImage(win_screen, 0, 0, this.SCREEN_WIDTH, this.SCREEN_HEIGHT, null);
+		}
+		else if(m_player.loose) {
+			g2.drawImage(loose_screen, 0, 0, this.SCREEN_WIDTH, this.SCREEN_HEIGHT, null);
 		}
 		else {
 			m_tileM.draw(g2);

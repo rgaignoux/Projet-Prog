@@ -24,7 +24,7 @@ public class Player extends EntityMovable {
 	KeyHandler m_keyH;
 	boolean usArc = false;
 	boolean usSword = true;
-	public List<Boolean> life;
+	public boolean [] life = new boolean[10];
 	public List<Arrow> listArrow;
 	public boolean dead = false;
 	public int pv_max = 10;
@@ -34,6 +34,8 @@ public class Player extends EntityMovable {
 	public int nbSalle = 0;
 	public boolean win = false;
 	public boolean loose = false;
+	public int tickDamage = 0;
+	public boolean canTakeDamage = true;
 
 	/**
 	 * Constructeur de Player
@@ -47,9 +49,10 @@ public class Player extends EntityMovable {
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.getPvImage();
-		life = new ArrayList<>();
+		for(int i=0; i<life.length; i++) {
+			life[i] = true;
+		}
 		listArrow = new ArrayList<>();
-		updatePv();
 	}
 
 	/**
@@ -104,9 +107,18 @@ public class Player extends EntityMovable {
 				a.updateArrow();
 			}
 		}
+		tickDamage++;
+		if(tickDamage == 20) {
+			tickDamage = 0;
+			canTakeDamage = true;
+		}
 		
 		if(this.nbSalle == 2) {
 			this.win = true;
+		}
+		
+		if(m_pv <= 0) {
+			this.loose = true;
 		}
 	}
 
@@ -207,20 +219,11 @@ public class Player extends EntityMovable {
 		}
 	}
 
-	public void updatePv() {
-		for (int i = 0; i < pv_max; i++) {
-			life.add(i < m_pv);
-		}
-		if (m_pv == 0) {
-			dead = true;
-		}
-	}
-
 	public void getPvImage() {
 		// gestion des expections
 		try {
 			m_PVImage = ImageIO.read(getClass().getResource("/player/heart.png"));
-			m_NoPvImage = ImageIO.read(getClass().getResource("/player/speedboots.png"));
+			m_NoPvImage = ImageIO.read(getClass().getResource("/player/CoeurVide.png"));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -229,13 +232,25 @@ public class Player extends EntityMovable {
 
 	public void lifeUpdate() {
 		for (Entity e : m_gp.listeEntity) {
-			if (e.getClass().getName().equals("entity.Spider") && Collision.collisionEntity(this, e)) {
-				m_pv--;
-				this.updatePv();
+			if (e.getClass().getName().equals("entity.Spider") && Collision.collisionEntity(this, e) && m_pv > 0) {
+				if(canTakeDamage) {
+					m_pv--;
+					life[m_pv] = false;
+					if (m_pv == 0) {
+						dead = true;
+					}
+					canTakeDamage = false;
+				}
 			}
-			if (e.getClass().getName().equals("Heart") && Collision.collisionEntity(this, e) && m_pv < pv_max) {
+			if (e.getClass().getName().equals("entity.Heart") && Collision.collisionEntity(this, e) && m_pv < pv_max) {
 				m_pv++;
-				this.updatePv();
+				life[m_pv - 1] = true;
+				m_gp.listeEntity.remove(e);
+			}
+			
+			if (e.getClass().getName().equals("entity.SpeedBoots") && Collision.collisionEntity(this, e)) {
+				m_speed = 5;
+				m_gp.listeEntity.remove(e);
 			}
 		}
 	}
@@ -243,8 +258,8 @@ public class Player extends EntityMovable {
 	public void drawPv(Graphics2D a_g2) {
 		BufferedImage l_image1 = m_PVImage;
 		BufferedImage l_image2 = m_NoPvImage;
-		for (int i = 0; i < life.size(); i++) {
-			if (life.get(i)) {
+		for (int i = 0; i < life.length; i++) {
+			if (life[i]) {
 				a_g2.drawImage(l_image1, i * 25 + 10, 540, 25, 25, null);
 			} else {
 				a_g2.drawImage(l_image2, i * 25 + 10, 540, 25, 25, null);

@@ -12,7 +12,7 @@ public class Heart extends Objet{
 	
 	
 	public Heart(GamePanel a_gp, int p_x, int p_y) {
-		super(a_gp,p_x,p_y,image_heart,1,3);
+		super(a_gp,p_x,p_y,image_heart);
 		this.getHeartImage();
 	}
 	 
