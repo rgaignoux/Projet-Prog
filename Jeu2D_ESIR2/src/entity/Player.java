@@ -104,22 +104,22 @@ public class Player extends EntityMovable {
 		Player positionFuture = new Player(this.m_gp, this.m_keyH);
 		positionFuture.copyPosition(this);
 
-		if (code == 90) {
+		if (code == 90 && positionFuture.m_y > 0) {
 			positionFuture.goUp();
 			if (!Collision.collisionObstacles(m_gp, positionFuture))
 				this.goUp();
 		}
-		if (code == 81) {
+		if (code == 81 && positionFuture.m_x > 0) {
 			positionFuture.goLeft();
 			if (!Collision.collisionObstacles(m_gp, positionFuture))
 				this.goLeft();
 		}
-		if (code == 83) {
+		if (code == 83 && positionFuture.m_y < m_gp.SCREEN_HEIGHT) {
 			positionFuture.goDown();
 			if (!Collision.collisionObstacles(m_gp, positionFuture))
 				this.goDown();
 		}
-		if (code == 68) {
+		if (code == 68 && positionFuture.m_x < m_gp.SCREEN_WIDTH) {
 			positionFuture.goRight();
 			if (!Collision.collisionObstacles(m_gp, positionFuture))
 				this.goRight();

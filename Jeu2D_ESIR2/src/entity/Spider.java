@@ -70,6 +70,8 @@ public class Spider extends Enemy {
 			y_direction = -y_direction;
 		}
 
+
+
 		if (x_direction == -1) {
 			this.goLeft();
 		}
