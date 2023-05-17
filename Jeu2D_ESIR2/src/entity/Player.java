@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -21,6 +23,11 @@ public class Player extends EntityMovable {
 	KeyHandler m_keyH;
 	boolean usArc = false;
 	boolean usSword = true;
+	public List<Boolean> life;
+	public boolean dead = false;
+	public int pv_max = 10;
+	public BufferedImage m_NoPvImage;
+	public BufferedImage m_PVImage;
 
 	/**
 	 * Constructeur de Player
@@ -33,6 +40,9 @@ public class Player extends EntityMovable {
 		this.m_keyH = a_keyH;
 		this.setDefaultValues();
 		this.getPlayerImage();
+		this.getPvImage();
+		life = new ArrayList<>();
+		updatePv();
 	}
 
 	/**
@@ -44,7 +54,7 @@ public class Player extends EntityMovable {
 		m_speed = 2;
 		m_pv = 10;
 	}
-	
+
 	protected void copyPosition(Player p) {
 		m_x = p.m_x;
 		m_y = p.m_y;
@@ -56,12 +66,12 @@ public class Player extends EntityMovable {
 	public void getPlayerImage() {
 		// gestion des expections
 		try {
-			if(usSword) {
+			if (usSword) {
 				m_idleImage = ImageIO.read(getClass().getResource("/player/heroEpee.png"));
 			} else {
 				m_idleImage = ImageIO.read(getClass().getResource("/player/heroArc.png"));
 			}
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,8 +84,9 @@ public class Player extends EntityMovable {
 		deplacement(m_keyH);
 		getPlayerImage();
 		weapon(m_keyH);
+		lifeUpdate();
 	}
-	
+
 	public void weapon(KeyHandler k) {
 		int code = k.keyP;
 		if (code == 49) {
@@ -95,33 +106,84 @@ public class Player extends EntityMovable {
 
 		if (code == 90) {
 			positionFuture.goUp();
-			if(!Collision.collisionObstacles(m_gp, positionFuture)) this.goUp();
+			if (!Collision.collisionObstacles(m_gp, positionFuture))
+				this.goUp();
 		}
 		if (code == 81) {
 			positionFuture.goLeft();
-			if(!Collision.collisionObstacles(m_gp, positionFuture)) this.goLeft();
+			if (!Collision.collisionObstacles(m_gp, positionFuture))
+				this.goLeft();
 		}
 		if (code == 83) {
 			positionFuture.goDown();
-			if(!Collision.collisionObstacles(m_gp, positionFuture)) this.goDown();
+			if (!Collision.collisionObstacles(m_gp, positionFuture))
+				this.goDown();
 		}
 		if (code == 68) {
 			positionFuture.goRight();
-			if(!Collision.collisionObstacles(m_gp, positionFuture)) this.goRight();
+			if (!Collision.collisionObstacles(m_gp, positionFuture))
+				this.goRight();
 		}
 	}
 
 	/**
-	 * Affichage du l'image du joueur dans la fen�tre du jeu
+	 * Affichage du l'image du joueur dans la fen tre du jeu
 	 * 
 	 * @param a_g2 Graphics2D
 	 */
 	public void draw(Graphics2D a_g2) {
-		// r�cup�re l'image du joueur
+		// r cup re l'image du joueur
 		BufferedImage l_image = m_idleImage;
-		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
-		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		a_g2.drawImage(l_image, m_x, m_y, m_width, m_height, null);
+		// affiche le personnage avec l'image "image", avec les coordonn es x et y, et
+		// de taille tileSize (16x16) sans chelle, et 48x48 avec chelle)
+		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		drawPv(a_g2);
+	}
+
+	public void updatePv() {
+		for (int i = 0; i < pv_max; i++) {
+			life.add(i < m_pv);
+		}
+		if (m_pv == 0) {
+			dead = true;
+		}
+	}
+
+	public void getPvImage() {
+		// gestion des expections
+		try {
+			m_PVImage = ImageIO.read(getClass().getResource("/player/heart.png"));
+			m_NoPvImage = ImageIO.read(getClass().getResource("/player/speedboots.png"));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void lifeUpdate() {
+		for (Entity e : m_gp.listeEntity) {
+			if (e.getClass().getName().equals("Spider") && Collision.collisionEntity(this, e)) {
+				m_pv--;
+				this.updatePv();
+			}
+			if (e.getClass().getName().equals("Heart") && Collision.collisionEntity(this, e) && m_pv < pv_max) {
+				m_pv++;
+				this.updatePv();
+			}
+		}
+	}
+
+	public void drawPv(Graphics2D a_g2) {
+		BufferedImage l_image1 = m_PVImage;
+		BufferedImage l_image2 = m_NoPvImage;
+		for (int i = 0; i < life.size(); i++) {
+			if (life.get(i)) {
+				a_g2.drawImage(l_image1, i * 25 + 10, 540, 25, 25, null);
+			} else {
+				a_g2.drawImage(l_image2, i * 25 + 10, 540, 25, 25, null);
+			}
+		}
+
 	}
 
 }

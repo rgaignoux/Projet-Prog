@@ -16,7 +16,7 @@ public class Main {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setTitle("ESIR1 - Projet Prog");
-		//
+		
 		//Ajout du panel du jeu et d�marrage du thread principal
 		GamePanel gamePanel = new GamePanel();
 		window.add(gamePanel);
