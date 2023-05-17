@@ -49,8 +49,8 @@ public class Player extends EntityMovable {
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 100;
-		m_y = 100;
+		m_x = 0;
+		m_y = 0;
 		m_speed = 2;
 		m_pv = 10;
 	}
