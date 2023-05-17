@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import map.Labyrinthe;
 import utils.Collision;
 
 /**
@@ -51,7 +52,7 @@ public class Player extends EntityMovable {
 	protected void setDefaultValues() {
 		m_x = 100;
 		m_y = 100;
-		m_speed = 2;
+		m_speed = 3;
 		m_pv = 10;
 	}
 
@@ -103,6 +104,14 @@ public class Player extends EntityMovable {
 		int code = k.keyP;
 		Player positionFuture = new Player(this.m_gp, this.m_keyH);
 		positionFuture.copyPosition(this);
+		
+		// Changement de salle
+		if(this.m_x > m_gp.SCREEN_WIDTH - m_gp.TILE_SIZE && this.m_y > m_gp.SCREEN_HEIGHT - m_gp.TILE_SIZE) {
+			this.m_x = 5;
+			this.m_y = 5;
+			this.m_gp.m_tileM.m_mapTileNum = Labyrinthe.generateMaze(this.m_gp.m_tileM.m_mapTileNum);
+			this.m_gp.resetSalle();
+		}
 
 		if (code == 90 && positionFuture.m_y > 0) {
 			positionFuture.goUp();

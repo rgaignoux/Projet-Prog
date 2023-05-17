@@ -40,8 +40,17 @@ public class GamePanel extends JPanel implements Runnable {
 	Player m_player;
 	public TileManager m_tileM;
 	public List<Obstacle> m_listeObstacleCollisionnables;
-	public List<Entity> listeEntity;
+	public List<Entity> listeEntity = new ArrayList<>();;
 
+	/**
+	 * Initialiser les entity (enemy, objects, ...)
+	 */
+	public void initialize() {
+		Spider spider1 = new Spider(this);
+		Spider spider2 = new Spider(this);
+		listeEntity.add(spider2);
+		listeEntity.add(spider1);
+	}
 	/**
 	 * Constructeur
 	 */
@@ -63,11 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 		
-		listeEntity = new ArrayList<>();
-		Spider spider1 = new Spider(this);
-		Spider spider2 = new Spider(this);
-		listeEntity.add(spider2);
-		listeEntity.add(spider1);
+		this.initialize();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -140,6 +145,14 @@ public class GamePanel extends JPanel implements Runnable {
 			e.draw(g2);
 		}
 		g2.dispose();
+	}
+	
+	/**
+	 * Reset la salle lorsque l'on change de salle
+	 */
+	public void resetSalle() {
+		listeEntity.clear();
+		this.initialize();
 	}
 
 }
