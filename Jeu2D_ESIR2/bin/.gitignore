@@ -1,6 +1,4 @@
 /entity/
-/fleche/
-/enemy/
-/player/
+/main/
+/tile/
 /maps/
-/tiles/
