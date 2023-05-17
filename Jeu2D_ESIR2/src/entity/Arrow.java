@@ -31,6 +31,7 @@ public class Arrow extends Player {
 	public BufferedImage m_idleImagea3;
 	public BufferedImage m_idleImagea4;
 
+	
 	public void updateArrow() {
 		if (!killArrow) {
 			this.m_x = p_x_arrow;

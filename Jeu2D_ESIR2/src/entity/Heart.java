@@ -13,7 +13,7 @@ public class Heart extends Objet{
 	
 	public Heart(GamePanel a_gp, int p_x, int p_y) {
 		super(a_gp,p_x,p_y,image_heart,1,3);
-		
+		this.getHeartImage();
 	}
 	 
 	
@@ -27,7 +27,7 @@ public class Heart extends Objet{
 	
 	public void draw(Graphics2D a_g2) {
 		BufferedImage l_image = m_idleImage;
-		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.drawImage(l_image, m_x, m_y, m_width, m_height, null);
 	}
 
 

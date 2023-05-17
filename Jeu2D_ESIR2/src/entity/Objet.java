@@ -10,8 +10,8 @@ public abstract class Objet extends Entity{
 		m_x = x;
 		m_y = y;
 		m_idleImage = idleImage;
-		m_width=width;
-		m_height=height;
+		this.m_height = 30;
+		this.m_width = 30;
 		
 	}
 	

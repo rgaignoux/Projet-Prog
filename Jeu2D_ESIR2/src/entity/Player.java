@@ -60,8 +60,8 @@ public class Player extends EntityMovable {
 		m_y = 5;
 		m_speed = 3;
 		m_pv = 10;
-		m_width = 36;
-		m_height = 36;
+		m_width = 39;
+		m_height = 39;
 	}
 
 	protected void copyPosition(Player p) {
@@ -229,7 +229,7 @@ public class Player extends EntityMovable {
 
 	public void lifeUpdate() {
 		for (Entity e : m_gp.listeEntity) {
-			if (e.getClass().getName().equals("Spider") && Collision.collisionEntity(this, e)) {
+			if (e.getClass().getName().equals("entity.Spider") && Collision.collisionEntity(this, e)) {
 				m_pv--;
 				this.updatePv();
 			}

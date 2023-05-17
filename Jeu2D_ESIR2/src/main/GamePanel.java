@@ -7,8 +7,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import entity.Entity;
+import entity.Heart;
 import entity.Player;
+import entity.SpeedBoots;
 import entity.Spider;
+import map.Labyrinthe;
 import tile.Obstacle;
 import tile.TileManager;
 
@@ -18,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Panel principal du jeu contenant la map principale
@@ -66,6 +70,34 @@ public class GamePanel extends JPanel implements Runnable {
 		Spider spider2 = new Spider(this);
 		listeEntity.add(spider2);
 		listeEntity.add(spider1);
+		
+		Random r =new Random();
+		int randomX = r.nextInt(MAX_SCREEN_COL);
+		int randomY = r.nextInt(MAX_SCREE_ROW);
+		Heart h = new Heart(this, randomX*TILE_SIZE, randomY*TILE_SIZE);
+		listeEntity.add(h);
+		Random r1 =new Random();
+		int randomX1 = r1.nextInt(MAX_SCREEN_COL);
+		int randomY1 = r1.nextInt(MAX_SCREE_ROW);
+		
+		SpeedBoots sb = new SpeedBoots(this, randomX1*TILE_SIZE, randomY1*TILE_SIZE);
+		listeEntity.add(sb);
+		
+		while(m_tileM.m_mapTileNum[randomX][randomY] == Labyrinthe.WALL) {
+			randomX = r.nextInt(MAX_SCREEN_COL);
+			randomY = r.nextInt(MAX_SCREE_ROW);
+			
+		}
+		
+		h.m_x = randomX*TILE_SIZE;
+		h.m_y = randomY*TILE_SIZE;
+		
+		while(m_tileM.m_mapTileNum[randomX1][randomY1] == Labyrinthe.WALL) {
+			randomX1 = r1.nextInt(MAX_SCREEN_COL);
+			randomY1 = r1.nextInt(MAX_SCREE_ROW);
+		}
+		sb.m_x = randomX1*TILE_SIZE;
+		sb.m_y = randomY1*TILE_SIZE;
 	}
 
 	/**
@@ -134,6 +166,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m_player.update();
 		for (Entity e : listeEntity) {
 			e.update();
+			System.out.println(e.getClass().getName());
 		}
 	}
 

@@ -20,7 +20,7 @@ public class SpeedBoots extends Objet{
 	
 	public void getHeartImage() {
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/player/heart.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/player/speedboots.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -28,7 +28,7 @@ public class SpeedBoots extends Objet{
 	
 	public void draw(Graphics2D a_g2) {
 		BufferedImage l_image = m_idleImage;
-		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.drawImage(l_image, m_x, m_y, m_width, m_height, null);
 	}
 
 
